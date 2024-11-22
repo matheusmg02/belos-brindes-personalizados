@@ -1,12 +1,12 @@
+/* eslint-disable react/jsx-indent */
 import './style.css';
-import api from '../../services/api';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-function Cadastro() {
-  
+
+const Cadastro = () => {
+
   const [nome, setNome] = useState();
   const [email, setEmail] = useState();
   const [senha, setSenha] = useState();
@@ -14,12 +14,17 @@ function Cadastro() {
   const cadastrarUsuario = (e) => {
     e.preventDefault();
     axios.post('http://localhost:3000/cadastro', {nome, email, senha})
-    .then(result => console.log(result))
+    .then(result => alert(result.data))
     .catch(err => alert(err))
   }
 
+  useEffect(() => {
+    document.title = 'Cadastro';
+  });
+
   return (
       <div className='container'>
+        <title>Cadastro</title>
         <form onSubmit={cadastrarUsuario}>
           <h1>Cadastro de Administrador</h1>
           <input 

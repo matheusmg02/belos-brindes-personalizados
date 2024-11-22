@@ -1,38 +1,26 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
+import globals from "globals";
+import pluginJs from "@eslint/js";
+import pluginReact from "eslint-plugin-react";
 
+
+/** @type {import('eslint').Linter.Config[]} */
 export default [
-  { ignores: ['dist'] },
+  {files: ["**/*.{js,mjs,cjs,jsx}"]},
+  {languageOptions: { globals: {...globals.browser, ...globals.node} }},
+  pluginJs.configs.recommended,
+  pluginReact.configs.flat.recommended,
   {
-    files: ['**/*.{js,jsx}'],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',
-      },
-    },
-    settings: { react: { version: '18.3' } },
-    plugins: {
-      react,
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-    },
     rules: {
-      ...js.configs.recommended.rules,
-      ...react.configs.recommended.rules,
-      ...react.configs['jsx-runtime'].rules,
-      ...reactHooks.configs.recommended.rules,
-      'react/jsx-no-target-blank': 'off',
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
-    },
-  },
-]
+      'react/react-in-jsx-scope': 0,
+      "prefer-const": "error", // Exige o uso de 'const' para variáveis que não são reatribuídas
+      "no-console": "warn",    // Aviso ao usar 'console.log()' no código
+      "no-unused-vars": "error", // Impede o uso de variáveis não utilizadas
+      "no-undef": "error", // Impede o uso de variáveis não declaradas
+      "react/jsx-uses-react": "off",     // Não é necessário usar 'React' diretamente no JSX a partir do React 17+
+      "react/jsx-uses-vars": "error",    // Garante que as variáveis usadas em JSX sejam tratadas corretamente
+      "react/jsx-indent": ["error", 2],  // Exige 2 espaços de indentação para JSX
+      "react/jsx-no-duplicate-props": "error", // Proíbe propriedades duplicadas em JSX
+      "react/jsx-wrap-multilines": ['error', { declaration: 'parens', assignment: 'parens' }], // Garante quebra de linha adequada no JSX
+    }
+  }
+];

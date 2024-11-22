@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const AdmModel = require('./models/administrador');
+const AdmModel = require("./models/administrador");
 
 const app = express();
 app.use(express.json());
@@ -22,15 +22,14 @@ app.post("/login", (req, res) => {
         } else {
             res.json("O email não está cadastrado.");
         }
-    });
+    })
+    .catch(err => res.json(err));
 });
 
 app.post('/cadastro', (req, res) => {
     AdmModel.create(req.body)
     .then(adms => res.json(adms))
-    .catch(err => res.json(err))
-})
-
-app.listen(3000, () => {
-    console.log("ok")
+    .catch(err => res.json(err));
 });
+
+app.listen(3000);
