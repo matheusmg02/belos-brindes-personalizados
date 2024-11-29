@@ -3,7 +3,7 @@ import axios from "axios";
 import "./style.css"
 import { Link } from "react-router-dom";
 
-const HomeADM = () => {
+const ListaProdutos = () => {
 
     const [produtos, setProdutos] = useState([]);
     useEffect(() => {
@@ -12,7 +12,7 @@ const HomeADM = () => {
                 const response = await axios.get("http://localhost:3000/api/produtos");
                 setProdutos(response.data);
             } catch (error) {
-                console.log("Error while fetching data", error);
+                console.log("Erro ao chamar os dados", error);
             }
         };
         chamarDados();
@@ -67,4 +67,4 @@ const HomeADM = () => {
     );
 }
 
-export default HomeADM;
+export default ListaProdutos;
