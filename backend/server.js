@@ -1,35 +1,28 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const AdmModel = require("./models/administrador");
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+import produtoRoute from "./routes/produtoRoute.js";
+import admRoute from "./routes/admRoute.js";
+
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+dotenv.config();
 
-mongoose.connect("mongodb://127.0.0.1:27017/administrador");
+const PORT = process.env.PORT;
+const MONGOURL = process.env.MONGO_URL;
 
-app.post("/login", (req, res) => {
-    const {email, senha} = req.body;
-    AdmModel.findOne({email: email})
-    .then(usuario => {
-        if(usuario) {
-            if(usuario.senha === senha) {
-                res.json("Logado com sucesso.");
-            } else {
-                res.json("Senha incorreta.");
-            }
-        } else {
-            res.json("O email não está cadastrado.");
-        }
+mongoose
+    .connect(MONGOURL)
+    .then(() => {
+        console.log("DB conectado");
+        app.listen(PORT, () => {
+            console.log(`Servidor rodando na porta ${PORT}`);
+        });
     })
-    .catch(err => res.json(err));
-});
+    .catch((error) => console.log(error));
 
-app.post('/cadastro', (req, res) => {
-    AdmModel.create(req.body)
-    .then(adms => res.json(adms))
-    .catch(err => res.json(err));
-});
-
-app.listen(3000);
+app.use("/api", produtoRoute);
+app.use("/api", admRoute);

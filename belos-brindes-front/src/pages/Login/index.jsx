@@ -11,11 +11,11 @@ const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3000/login', {email, senha})
+        axios.post('http://localhost:3000/api/login', {email, senha})
         .then(result => {
             alert(result.data);
             if(result.data === "Logado com sucesso.") {
-                navigate('/home');
+                navigate('/homeadm');
             }
         })
         .catch(err => alert(err));
@@ -29,7 +29,7 @@ const Login = () => {
       <div className="container">
         <title>Login</title>
         <form onSubmit={handleLogin}>
-          <h1>Login</h1>
+          <h1>Login para ADM's</h1>
           <input 
                     placeholder='Email' 
                     name="email" 

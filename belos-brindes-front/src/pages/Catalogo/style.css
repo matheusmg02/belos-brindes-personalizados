@@ -1,0 +1,19 @@
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.card {
+    width: 16rem;
+    text-align: center;
+}
+
+.carrinho {
+    margin-top: 50px;
+}
+
+.title-carrinho {
+    color: #fff;
+    text-align: center;
+}

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const AdmSchema = new mongoose.Schema({
     nome: String, 
@@ -6,5 +6,4 @@ const AdmSchema = new mongoose.Schema({
     senha: String
 });
 
-const AdmModel = mongoose.model("administradores", AdmSchema);
-module.exports = AdmModel;
+export default mongoose.model("administradores", AdmSchema);

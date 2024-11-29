@@ -13,7 +13,7 @@ const Cadastro = () => {
 
   const cadastrarUsuario = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3000/cadastro', {nome, email, senha})
+    axios.post('http://localhost:3000/api/cadastro', {nome, email, senha})
     .then(result => alert(result.data))
     .catch(err => alert(err))
   }

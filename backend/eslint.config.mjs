@@ -7,7 +7,7 @@ export default [
   pluginJs.configs.recommended,
   {
     rules: {
-      'no-console': 'warn',  // Emite um aviso quando 'console.log' é usado
+      // 'no-console': 'warn',  // Emite um aviso quando 'console.log' é usado
       'no-unused-vars': 'warn',  // Emite um aviso sobre variáveis não utilizadas
       'semi': ['error', 'always'],  // Exige ponto e vírgula no final das instruções
       'eqeqeq': 'error',  // Exige o uso de '===' ao invés de '=='
