@@ -1,6 +1,5 @@
 import ProdutoModel from "../models/Produto.js";
 
-
 export const create = async (req, res) => {
   ProdutoModel.create(req.body)
   .then(produtos => res.json(produtos))

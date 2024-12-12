@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+
 import produtoRoute from "./routes/produtoRoute.js";
 import admRoute from "./routes/admRoute.js";
 
@@ -26,3 +27,13 @@ mongoose
 
 app.use("/api", produtoRoute);
 app.use("/api", admRoute);
+
+/* 
+
+Rotas públicas:
+    - Login e Cadastro do cliente
+    - Catálogo
+
+Rotas privadas:
+    - Lista de usuários (mostrando a permissão das contas, clientes e adms)
+*/
