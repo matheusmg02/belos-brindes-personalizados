@@ -9,6 +9,6 @@ admRoute.post("/cadastro", create);
 admRoute.post("/login", login);
 admRoute.get("/adms", auth, buscarAdms);
 admRoute.put("/adm/:id", editarAdm);
-admRoute.delete("/adm/:id", deletarAdm);
+admRoute.delete("/adm/:id", auth, deletarAdm);
 
 export default admRoute;

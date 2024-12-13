@@ -9,16 +9,21 @@ const Login = () => {
     const [senha, setSenha] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3000/api/login', {email, senha})
-        .then(result => {
-            alert(result.data);
-            if(result.data === "Logado com sucesso.") {
-                navigate('/homeadm');
-            }
-        })
-        .catch(err => alert(err));
+        try {
+          const { data: token } = await axios.post("http://localhost:3000/api/login", {
+            email: email,
+            senha: senha
+          })
+
+          localStorage.setItem("token", token);
+          
+          navigate('/homeadm');
+
+        } catch (error) {
+          alert(error)
+        }
     }
 
     useEffect(() => {

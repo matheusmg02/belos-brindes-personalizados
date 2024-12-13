@@ -9,7 +9,12 @@ const HomeADM = () => {
     useEffect(() => {
         const chamarDados = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/api/adms");
+                const token = localStorage.getItem("token")
+                const response = await axios.get("http://localhost:3000/api/adms", {
+                    headers: { Authorization: `Bearer ${token}`}
+                });
+                
+                console.log(response);
                 setAdms(response.data);
             } catch (error) {
                 console.log("Error ao chamar os dados", error);
@@ -19,12 +24,16 @@ const HomeADM = () => {
     }, []);
 
     const deletarAdm = async (admId) => {
-        await axios
-        .delete(`http://localhost:3000/api/adm/${admId}`)
-        .then(() => {
+        try {
+            const token = localStorage.getItem("token") 
+            const response = await axios.delete(`http://localhost:3000/api/adm/${admId}`, {
+                headers: { Authorization: `Bearer ${token}`}
+            });
+
             setAdms((admDeletado) => admDeletado.filter((adm) => adm._id !== admId))
-        })
-        .catch(err => alert(err))
+        } catch (error) {
+            alert(error);
+        }
     }
 
     return (
@@ -38,7 +47,6 @@ const HomeADM = () => {
                         <th scpoe="col">ID</th>
                         <th scope="col">Nome</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Senha</th>
                         <th scope="col">Ações</th>
                     </tr>
                 </thead>
@@ -49,7 +57,6 @@ const HomeADM = () => {
                             <td>{adm._id}</td>
                             <td>{adm.nome}</td>
                             <td>{adm.email}</td>
-                            <td>{adm.senha}</td>
                             <td className="acoes">
                                 <Link title="Editar Perfil" to={`/editarperfil/${adm._id}`}>
                                     <button type="button" className="btn btn-info">
