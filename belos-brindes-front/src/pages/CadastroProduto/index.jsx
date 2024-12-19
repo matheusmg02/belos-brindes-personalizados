@@ -36,7 +36,7 @@ const CadastroProduto = () => {
                   onChange={(e) => setDescricao(e.target.value)} />
         <button type='submit'>Cadastrar Produto</button>
 
-        <Link to="/homeadm">Voltar para a lista</Link>
+        <Link to="/listaprodutos">Voltar para a lista</Link>
       </form>
     </div>
   )

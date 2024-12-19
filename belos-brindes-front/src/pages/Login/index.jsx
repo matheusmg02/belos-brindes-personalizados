@@ -36,15 +36,15 @@ const Login = () => {
         <form onSubmit={handleLogin}>
           <h1>Login para ADM's</h1>
           <input 
-                    placeholder='Email' 
-                    name="email" 
-                    type="text"
-                    onChange={(e) => setEmail(e.target.value)} />
+              placeholder='Email' 
+              name="email" 
+              type="text"
+              onChange={(e) => setEmail(e.target.value)} />
           <input 
-                    placeholder='Senha' 
-                    name="senha" 
-                    type="password" 
-                    onChange={(e) => setSenha(e.target.value)} />
+              placeholder='Senha' 
+              name="senha" 
+              type="password" 
+              onChange={(e) => setSenha(e.target.value)} />
           <button type='submit'>Entrar</button>
 
           <p>Não possui uma conta? <Link to="/cadastro">Cadastre-se</Link></p>
