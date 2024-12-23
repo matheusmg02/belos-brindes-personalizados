@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 import produtoRoute from "./routes/produtoRoute.js";
 import admRoute from "./routes/admRoute.js";
+import pedidoRoute from "./routes/pedidoRoute.js";
 
 
 const app = express();
@@ -27,6 +28,7 @@ mongoose
 
 app.use("/api", produtoRoute);
 app.use("/api", admRoute);
+app.use("/api", pedidoRoute);
 
 /* 
 

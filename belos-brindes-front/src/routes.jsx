@@ -9,6 +9,8 @@ import CadastroProduto from './pages/CadastroProduto';
 import EditarProduto from './pages/EditarProduto'
 import Catalogo from "./pages/Catalogo";
 import Carrinho from "./pages/Carrinho";
+import Pedidos from "./pages/Pedidos";
+import Pedido from "./pages/Pedido"
 
 function RoutesApp() {
     return (
@@ -24,7 +26,11 @@ function RoutesApp() {
                 <Route path="/editarproduto/:id" element={<EditarProduto />}></Route>    
                 {/* Rotas para cliente */}
                 <Route path="/" element={<Catalogo />}></Route>    
-                <Route path="/carrinho" element={<Carrinho />}></Route>    
+                <Route path="/carrinho" element={<Carrinho />}></Route>
+                <Route path="/pedidos" element={<Pedidos />}></Route>
+                <Route path="/pedido/:id" element={<Pedido />}></Route>    
+
+
 
             </Routes>
         </BrowserRouter>

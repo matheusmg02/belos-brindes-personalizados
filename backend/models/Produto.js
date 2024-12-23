@@ -6,6 +6,4 @@ const ProdutoSchema = new mongoose.Schema({
     descricao: String
 });
 
-
-
 export default mongoose.model("produtos", ProdutoSchema);
