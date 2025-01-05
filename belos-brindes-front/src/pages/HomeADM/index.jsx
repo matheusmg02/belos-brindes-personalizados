@@ -47,6 +47,7 @@ const HomeADM = () => {
                         <th scpoe="col">ID</th>
                         <th scope="col">Nome</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Role</th>
                         <th scope="col">Ações</th>
                     </tr>
                 </thead>
@@ -57,6 +58,7 @@ const HomeADM = () => {
                             <td>{adm._id}</td>
                             <td>{adm.nome}</td>
                             <td>{adm.email}</td>
+                            <td>{adm.role}</td>
                             <td className="acoes">
                                 <Link title="Editar Perfil" to={`/editarperfil/${adm._id}`}>
                                     <button type="button" className="btn btn-info">

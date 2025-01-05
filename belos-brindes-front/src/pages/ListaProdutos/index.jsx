@@ -19,8 +19,13 @@ const ListaProdutos = () => {
     }, []);
  
     const deletarProduto = async (produtoId) => {
+        const token = localStorage.getItem("token");
         await axios
-        .delete(`http://localhost:3000/api/produto/${produtoId}`)
+        .delete(`http://localhost:3000/api/produto/${produtoId}`, 
+            {
+                headers: { Authorization: `Bearer ${token}` }
+            }
+        )
         .then(() => {
             setProdutos((produtoDeletado) => produtoDeletado.filter((produto) => produto._id !== produtoId))
         })

@@ -10,7 +10,15 @@ const CadastroProduto = () => {
 
   const cadastrarProduto = (e) => {
       e.preventDefault();
-      axios.post('http://localhost:3000/api/produto', {nome, qtd_estoque, descricao})
+      const token = localStorage.getItem("token");
+      const response = axios.post('http://localhost:3000/api/produto', 
+      {nome, qtd_estoque, descricao},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+      )
       .then(result => alert(result.data))
       .catch(err => alert(err))
   }

@@ -24,14 +24,11 @@ function RoutesApp() {
                 <Route path="/listaprodutos" element={<ListaProdutos />}></Route>              
                 <Route path="/cadastroproduto" element={<CadastroProduto />}></Route>    
                 <Route path="/editarproduto/:id" element={<EditarProduto />}></Route>    
+                <Route path="/pedidos" element={<Pedidos />}></Route>
                 {/* Rotas para cliente */}
                 <Route path="/" element={<Catalogo />}></Route>    
                 <Route path="/carrinho" element={<Carrinho />}></Route>
-                <Route path="/pedidos" element={<Pedidos />}></Route>
                 <Route path="/pedido/:id" element={<Pedido />}></Route>    
-
-
-
             </Routes>
         </BrowserRouter>
     );

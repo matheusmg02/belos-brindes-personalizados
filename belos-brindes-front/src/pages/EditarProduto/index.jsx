@@ -11,7 +11,14 @@ const EditarProduto = () => {
 
     const editarProduto = (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:3000/api/produto/${id}`, {nome, qtd_estoque})
+        const token = localStorage.getItem("token")
+        axios.put(`http://localhost:3000/api/produto/${id}`, 
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+         },
+         {nome, qtd_estoque})
         .then(result => alert(result.data))
         .catch(err => alert(err))
     }

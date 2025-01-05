@@ -7,11 +7,12 @@ const EditarPerfil = () => {
     
     const [nome, setNome] = useState();
     const [senha, setSenha] = useState();
+    const [role, setRole] = useState();
     const { id } = useParams();
 
     const editarPerfil = (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:3000/api/adm/${id}`, {nome, senha})
+        axios.put(`http://localhost:3000/api/adm/${id}`, {nome, senha, role})
         .then(result => alert(result.data))
         .catch(err => alert(err))
     }
@@ -31,6 +32,17 @@ const EditarPerfil = () => {
                     type="password"
                     onChange={(e) => setSenha(e.target.value)} />
             <button type='submit'>Confirmar edição</button>
+
+            <select 
+                name="role" 
+                value={role} 
+                onChange={(e) => setRole(e.target.value)}
+            >
+        
+            <option value="admin">Administrador</option>
+            <option value="auth-pedidos">Somente acesso à pedidos</option>
+            <option value="auth-produtos">Somente acesso à produtos</option>
+        </select>
 
             <Link to="/homeadm">Voltar para a lista de usuários</Link>
         </form>

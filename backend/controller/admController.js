@@ -10,7 +10,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 // Cadastrar usuário
 export const create = async (req, res) => {
     try {
-      const {nome, email, senha} = req.body;
+      const {nome, email, senha, role} = req.body;
 
       const admExiste = await AdmModel.findOne({ email });
 
@@ -24,7 +24,8 @@ export const create = async (req, res) => {
       const admCriado = await AdmModel.create({ 
         nome, 
         email, 
-        senha: hash_password
+        senha: hash_password,
+        role
       });
 
       res.status(200).json({msg: admCriado});
@@ -36,30 +37,35 @@ export const create = async (req, res) => {
 
 // Login do usuário
 export const login = async (req, res) => {
-    try {
-      // Busca o usuário no banco
-      const {email, senha} = req.body;
-      const adm = await AdmModel.findOne({email: email});
+  const {email, senha} = req.body;
+    
+  try {
+    const adm = await AdmModel.findOne({email: email});
 
-      // Verifica se o usuário existe
-      if(!adm) {
-        return res.status(404).json({message: "Usuário não encontrado"});
-      }
-
-      // Compara a senha inserida com o hash
-      const isMatch = await bcrypt.compare(senha, adm.senha);
-
-      if(!isMatch) {
-        return res.status(400).json({message: "Senha inválida"});
-      }
-
-      // Gerar o token
-      const token = jwt.sign({id: adm.id}, JWT_SECRET, {expiresIn: "1d"});
-      
-      res.status(200).json(token);
-    } catch (error) {
-      res.status(500).json(error);
+    if(!adm) {
+      return res.status(404).json({message: "Usuário não encontrado"});
     }
+    
+    const isMatch = await bcrypt.compare(senha, adm.senha);
+
+    if(!isMatch) {
+      return res.status(400).json({message: "Senha inválida"});
+    }
+
+    const token = jwt.sign(
+      {
+        id: adm._id,
+        email: adm.email,
+        role: adm.role,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+    
+    res.status(200).json(token);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 // Buscar adms

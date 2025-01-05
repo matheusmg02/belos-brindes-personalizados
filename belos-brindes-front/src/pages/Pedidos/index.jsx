@@ -9,7 +9,12 @@ const Pedidos = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/api/pedidos");
+                const token = localStorage.getItem("token");
+                const response = await axios.get("http://localhost:3000/api/pedidos", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                });
                 setPedidos(response.data);
                 console.log(pedidos);
             } catch (error) {

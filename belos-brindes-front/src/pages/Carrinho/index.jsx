@@ -5,12 +5,12 @@ import "./style.css";
 
 const Carrinho = () => {
     const [produtos, setProdutos] = useState(getItem("carrinho") || []);
-    const [quantidades, setQuantidades] = useState({}); // Armazena as quantidades para cada produto
+    const [quantidades, setQuantidades] = useState({});
 
     const handleQuantidadeChange = (id, quantidade) => {
         setQuantidades((prev) => ({
             ...prev,
-            [id]: quantidade, // Atualiza a quantidade para o produto específico
+            [id]: quantidade,
         }));
     };
 
@@ -19,7 +19,6 @@ const Carrinho = () => {
         setProdutos(arrayFilter);
         setItem("carrinho", arrayFilter);
 
-        // Remove também do objeto de quantidades
         setQuantidades((prev) => {
             const updated = { ...prev };
             delete updated[obj._id];
@@ -30,11 +29,10 @@ const Carrinho = () => {
     const criarPedido = (e) => {
         e.preventDefault();
 
-        // Cria a lista de produtos com nome e quantidade
         const pedidoProdutos = produtos.map((produto) => ({
             id_produto: produto._id,
             nome_produto: produto.nome,
-            quantidade: quantidades[produto._id] || 0, // Usa a quantidade ou 0 se não preenchido
+            quantidade: quantidades[produto._id] || 0,
         }));
 
         axios

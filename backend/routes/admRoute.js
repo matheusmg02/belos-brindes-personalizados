@@ -7,8 +7,8 @@ const admRoute = express.Router();
 
 admRoute.post("/cadastro", create);
 admRoute.post("/login", login);
-admRoute.get("/adms", auth, buscarAdms);
+admRoute.get("/adms", auth(["master", "auth-produtos", "auth-pedidos"]), buscarAdms);
 admRoute.put("/adm/:id", editarAdm);
-admRoute.delete("/adm/:id", auth, deletarAdm);
+admRoute.delete("/adm/:id", deletarAdm);
 
 export default admRoute;
