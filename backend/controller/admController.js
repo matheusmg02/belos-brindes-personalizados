@@ -2,37 +2,30 @@ import AdmModel from "../models/Administrador.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import UserFactory from "../factory/userFactory.js";
+import deleteAdmById from "../proxyAdm/delete.js";
+import updateAdmById from "../proxyAdm/edit.js";
 
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// Cadastrar usuário
 export const create = async (req, res) => {
-    try {
-      const {nome, email, senha, role} = req.body;
+  try {
+    const { nome, email, senha, role } = req.body;
 
-      const admExiste = await AdmModel.findOne({ email });
-
-      if(admExiste) {
-        return res.status(400).json({msg: "email já existe"});
-      }
-
-      const saltRound = 10;
-      const hash_password = await bcrypt.hash(senha, saltRound);
-
-      const admCriado = await AdmModel.create({ 
-        nome, 
-        email, 
-        senha: hash_password,
-        role
-      });
-
-      res.status(200).json({msg: admCriado});
-    } catch (error) {
-      res.status(500).json(error);
+    const admExiste = await AdmModel.findOne({ email });
+    if (admExiste) {
+      return res.status(400).json({ msg: 'Email já existe' });
     }
-    
+
+    const userFactory = UserFactory();
+    const admCriado = await userFactory.createUser(nome, email, senha, role);
+
+    res.status(200).json({ msg: admCriado });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 // Login do usuário
@@ -83,33 +76,30 @@ export const buscarAdms = async (req, res) => {
 
 // Editar adm
 export const editarAdm = async (req, res) => {
-    try {
-      const id = req.params.id;
-      const admExist = await AdmModel.findById(id);
-      if (!admExist) {
-        return res.status(404).json({ message: "Adm não encontrado." });
-      }
-      const admAtualizado = await AdmModel.findByIdAndUpdate(id, req.body, {
-        new: true,
-      });
-      // res.status(200).json(updatedData);
-      res.status(200).json({ message: "Adm atualizado." });
-    } catch (error) {
-      res.status(500).json({ errorMessage: error.message });
-    }
+  try {
+    const id = req.params.id;
+    const newData = req.body;
+
+    // Usa a função proxy para editar o administrador
+    const admAtualizado = await updateAdmById(id, newData);
+
+    res.status(200).json({ message: "Adm atualizado.", data: admAtualizado });
+  } catch (error) {
+    res.status(500).json({ errorMessage: error.message });
+  }
 };
+
 
 // Deletar adm
 export const deletarAdm = async (req, res) => {
-    try {
-      const id = req.params.id;
-      const admExist = await AdmModel.findById(id);
-      if (!admExist) {
-        return res.status(404).json({ message: "Adm não encontrado" });
-      }
-      await AdmModel.findByIdAndDelete(id);
-      res.status(200).json({ message: "Adm deletado." });
-    } catch (error) {
-      res.status(500).json({ errorMessage: error.message });
-    }
+  try {
+    const id = req.params.id;
+
+    // função proxy
+    await deleteAdmById(id);
+
+    res.status(200).json({ message: "Adm deletado." });
+  } catch (error) {
+    res.status(500).json({ errorMessage: error.message });
+  }
 };

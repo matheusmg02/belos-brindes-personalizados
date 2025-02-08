@@ -1,4 +1,6 @@
 import ProdutoModel from "../models/Produto.js";
+import deletarProdutobyId from "../proxyProduto/delete.js";
+import atualizarProdutoById from "../proxyProduto/edit.js";
 
 export const create = async (req, res) => {
   ProdutoModel.create(req.body)
@@ -21,15 +23,11 @@ export const buscarProdutos = async (req, res) => {
 export const atualizarProduto = async (req, res) => {
   try {
     const id = req.params.id;
-    const produtoExist = await ProdutoModel.findById(id);
-    if (!produtoExist) {
-      return res.status(404).json({ message: "Produto não encontrado" });
-    }
-    const produtoAtualizado = await ProdutoModel.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
-    // res.status(200).json(updatedData);
-    res.status(200).json({ message: "User Updated successfully." });
+    const newData = req.body;
+
+    const produtoAtualizado = await atualizarProdutoById(id, newData);
+
+    res.status(200).json({ message: "Produto não encontrado" });
   } catch (error) {
     res.status(500).json({ errorMessage: error.message });
   }
@@ -38,12 +36,8 @@ export const atualizarProduto = async (req, res) => {
 export const deletarProduto = async (req, res) => {
   try {
     const id = req.params.id;
-    const userExist = await ProdutoModel.findById(id);
-    if (!userExist) {
-      return res.status(404).json({ message: "User not found." });
-    }
-    await ProdutoModel.findByIdAndDelete(id);
-    res.status(200).json({ message: "User deleted successfully." });
+    await deletarProdutobyId(id);
+    res.status(200).json({ message: " Produto deletado." });
   } catch (error) {
     res.status(500).json({ errorMessage: error.message });
   }
