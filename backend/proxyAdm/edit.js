@@ -1,6 +1,5 @@
 import AdmModel from "../models/Administrador.js";
 
-// Função proxy para editar um administrador por ID
 const updateAdmById = async(id, newData) => {
     console.log(`Editando administrador com ID: ${id}`);
     const adm = await AdmModel.findByIdAndUpdate(id, newData, { new: true });

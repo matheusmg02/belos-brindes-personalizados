@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import UserFactory from "../factory/userFactory.js";
 import deleteAdmById from "../proxyAdm/delete.js";
 import updateAdmById from "../proxyAdm/edit.js";
+import readAdms from "../proxyAdm/read.js";
 
 dotenv.config();
 
@@ -64,7 +65,7 @@ export const login = async (req, res) => {
 // Buscar adms
 export const buscarAdms = async (req, res) => {
     try {
-      const admData = await AdmModel.find();
+      const admData = await readAdms();
       if (!admData || admData.length === 0) {
         return res.status(404).json({ message: "Usuário não encontrado" });
       }

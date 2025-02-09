@@ -1,6 +1,7 @@
 import ProdutoModel from "../models/Produto.js";
 import deletarProdutobyId from "../proxyProduto/delete.js";
 import atualizarProdutoById from "../proxyProduto/edit.js";
+import readProdutos from "../proxyProduto/read.js";
 
 export const create = async (req, res) => {
   ProdutoModel.create(req.body)
@@ -10,7 +11,7 @@ export const create = async (req, res) => {
 
 export const buscarProdutos = async (req, res) => {
   try {
-    const produtoData = await ProdutoModel.find();
+    const produtoData = await readProdutos();
     if (!produtoData || produtoData.length === 0) {
       return res.status(404).json({ message: "" });
     }

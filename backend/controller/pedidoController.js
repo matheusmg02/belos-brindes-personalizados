@@ -1,4 +1,6 @@
 import PedidoModel from "../models/Pedido.js";
+import readPedidos from "../proxyPedido/read.js";
+import readPedidoById from "../proxyPedido/readById.js";
 
 export const createPedido = async (req, res) => {
   PedidoModel.create(req.body)
