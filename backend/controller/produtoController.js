@@ -1,12 +1,18 @@
-import ProdutoModel from "../models/Produto.js";
+import ProdutoFactory from "../factory/produtoFactory.js";
 import deletarProdutobyId from "../proxyProduto/delete.js";
 import atualizarProdutoById from "../proxyProduto/edit.js";
 import readProdutos from "../proxyProduto/read.js";
 
 export const create = async (req, res) => {
-  ProdutoModel.create(req.body)
-  .then(produtos => res.json(produtos))
-  .catch(err => res.json(err));
+  try {
+    const produtoFactory = ProdutoFactory();
+    const produtoCriado = await produtoFactory.criarProduto(req.body);
+
+    res.status(200).json({ msg: produtoCriado });
+    
+  } catch(error) {
+    res.status(500).json({ errorMessage: error.message });
+  }
 };
 
 export const buscarProdutos = async (req, res) => {

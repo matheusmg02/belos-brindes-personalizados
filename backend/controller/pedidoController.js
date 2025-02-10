@@ -1,11 +1,18 @@
 import PedidoModel from "../models/Pedido.js";
+import PedidoFactory from "../factory/pedidoFactory.js";
 import readPedidos from "../proxyPedido/read.js";
 import readPedidoById from "../proxyPedido/readById.js";
 
 export const createPedido = async (req, res) => {
-  PedidoModel.create(req.body)
-  .then(produtos => res.json(produtos))
-  .catch(err => res.json(err));
+  try {
+    const pedidoFactory = PedidoFactory();
+    const pedidoCriado = await pedidoFactory.criarPedido(req.body);
+
+    res.status(200).json({ msg: pedidoCriado });
+    
+  } catch(error) {
+    res.status(500).json({ errorMessage: error.message });
+  }
 };
 
 export const buscarPedidos = async (req, res) => {
