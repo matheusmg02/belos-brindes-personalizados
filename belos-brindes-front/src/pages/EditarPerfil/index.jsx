@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react"; 
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { mudarPerfil } from "../../services/userService";
 
 const EditarPerfil = () => {
     
@@ -12,11 +12,10 @@ const EditarPerfil = () => {
 
     const editarPerfil = (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:3000/api/adm/${id}`, {nome, senha, role})
-        .then(result => alert(result.data))
-        .catch(err => alert(err))
-    }
-  
+        mudarPerfil(id, {nome, senha, role});
+        alert("Perfil editado!");
+    };
+
     return (
         <div className="container">
         <form onSubmit={editarPerfil}>

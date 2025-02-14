@@ -1,36 +1,41 @@
-import { useEffect, useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import "./style.css"
+import "./style.css";
 import { Link } from "react-router-dom";
 
 const ListaProdutos = () => {
+    const queryClient = useQueryClient();
 
-    const [produtos, setProdutos] = useState([]);
-    useEffect(() => {
-        const chamarDados = async () => {
-            try {
-                const response = await axios.get("http://localhost:3000/api/produtos");
-                setProdutos(response.data);
-            } catch (error) {
-                console.log("Erro ao chamar os dados", error);
-            }
-        };
-        chamarDados();
-    }, []);
- 
-    const deletarProduto = async (produtoId) => {
-        const token = localStorage.getItem("token");
-        await axios
-        .delete(`http://localhost:3000/api/produto/${produtoId}`, 
-            {
-                headers: { Authorization: `Bearer ${token}` }
-            }
-        )
-        .then(() => {
-            setProdutos((produtoDeletado) => produtoDeletado.filter((produto) => produto._id !== produtoId))
-        })
-        .catch(err => alert(err))
-    }
+    const fetchProdutos = async () => {
+        const response = await axios.get("http://localhost:3000/api/produtos");
+        return response.data;
+    };
+
+    const { data: produtos, isLoading, isError, error } = useQuery({
+        queryKey: ["produtos"],
+        queryFn: fetchProdutos,
+    });
+
+    const deleteProduto = async (produtoId) => {
+        const token = sessionStorage.getItem("token");
+        await axios.delete(`http://localhost:3000/api/produto/${produtoId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+    };
+
+    const mutation = useMutation({
+        mutationFn: deleteProduto,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["produtos"] });
+        },
+    });
+
+    const deletarProduto = (produtoId) => {
+        mutation.mutate(produtoId);
+    };
+
+    if (isLoading) return <div>Carregando...</div>;
+    if (isError) return <div>Erro: {error.message}</div>;
 
     return (
         <div className="tabelaProdutos">
@@ -47,8 +52,7 @@ const ListaProdutos = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {produtos.map((produto)=> {
-                        return (
+                    {produtos.map((produto) => (
                         <tr key={produto._id}>
                             <td>{produto.nome}</td>
                             <td>{produto.qtd_estoque}</td>
@@ -59,17 +63,21 @@ const ListaProdutos = () => {
                                         <i className="fa-solid fa-pen-to-square"></i>
                                     </button>
                                 </Link>
-                                <button title="Deletar Produto" onClick={() => deletarProduto(produto._id)} type="button" className="btn btn-danger">
+                                <button
+                                    title="Deletar Produto"
+                                    onClick={() => deletarProduto(produto._id)}
+                                    type="button"
+                                    className="btn btn-danger"
+                                >
                                     <i className="fa-solid fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
-                        )
-                    })}
+                    ))}
                 </tbody>
             </table>
         </div>
     );
-}
+};
 
 export default ListaProdutos;

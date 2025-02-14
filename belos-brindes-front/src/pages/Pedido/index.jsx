@@ -10,7 +10,7 @@ const Pedido = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const token = localStorage.getItem("token");
+                const token = sessionStorage.getItem("token");
                 const response = await axios.get(`http://localhost:3000/api/pedido/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { cadastrarProduto } from "../../services/produtoService.js";
 
 const CadastroProduto = () => {
 
@@ -8,24 +8,15 @@ const CadastroProduto = () => {
   const [qtd_estoque, setQtdEstoque] = useState();
   const [descricao, setDescricao] = useState();
 
-  const cadastrarProduto = (e) => {
-      e.preventDefault();
-      const token = localStorage.getItem("token");
-      const response = axios.post('http://localhost:3000/api/produto', 
-      {nome, qtd_estoque, descricao},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-      )
-      .then(result => alert(result.data))
-      .catch(err => alert(err))
+  const handleCadastro = async(e) => {
+    e.preventDefault();
+    await cadastrarProduto({nome, qtd_estoque, descricao});
+    alert("Produto cadastrado!");
   }
 
   return (
       <div className="container">
-      <form onSubmit={cadastrarProduto}>
+      <form onSubmit={handleCadastro}>
         <h1>Cadastro de produtos</h1>
         <input 
                   placeholder='Nome do produto' 

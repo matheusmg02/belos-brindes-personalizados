@@ -3,21 +3,21 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./style.css";
 
+
 const HomeADM = () => {
 
     const [adms, setAdms] = useState([]);
     useEffect(() => {
         const chamarDados = async () => {
             try {
-                const token = localStorage.getItem("token")
+                const token = sessionStorage.getItem("token")
                 const response = await axios.get("http://localhost:3000/api/adms", {
                     headers: { Authorization: `Bearer ${token}`}
                 });
-                
                 console.log(response);
                 setAdms(response.data);
             } catch (error) {
-                console.log("Error ao chamar os dados", error);
+                console.log("Erro ao chamar os dados", error);
             }
         };
         chamarDados();
@@ -25,7 +25,7 @@ const HomeADM = () => {
 
     const deletarAdm = async (admId) => {
         try {
-            const token = localStorage.getItem("token") 
+            const token = sessionStorage.getItem("token") 
             const response = await axios.delete(`http://localhost:3000/api/adm/${admId}`, {
                 headers: { Authorization: `Bearer ${token}`}
             });

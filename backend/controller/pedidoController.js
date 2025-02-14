@@ -1,13 +1,12 @@
 import PedidoModel from "../models/Pedido.js";
-import PedidoFactory from "../factory/pedidoFactory.js";
-import readPedidos from "../proxyPedido/read.js";
-import readPedidoById from "../proxyPedido/readById.js";
+import PedidoService from "../services/PedidoService.js";
+
+const pedidoService = PedidoService();
 
 export const createPedido = async (req, res) => {
   try {
-    const pedidoFactory = PedidoFactory();
-    const pedidoCriado = await pedidoFactory.criarPedido(req.body);
-
+    const pedidoCriado = PedidoModel.create(req.body);
+    
     res.status(200).json({ msg: pedidoCriado });
     
   } catch(error) {
@@ -17,7 +16,7 @@ export const createPedido = async (req, res) => {
 
 export const buscarPedidos = async (req, res) => {
   try {
-    const pedidoData = await PedidoModel.find();
+    const pedidoData = await pedidoService.readPedidos();
     if (!pedidoData || pedidoData.length === 0) {
       return res.status(404).json({ message: "" });
     }
@@ -30,9 +29,20 @@ export const buscarPedidos = async (req, res) => {
 export const buscarPedidoPorId = async(req, res) => {
   try {
     const id = req.params.id;
-    const pedido = await PedidoModel.findById(id);
+    const pedido = await pedidoService.readPedidoById(id);
     res.status(200).json(pedido);
   } catch (error) {
+    res.status(500).json({ errorMessage: error.message });
+  }
+};
+
+export const deletarPedido = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const pedido = pedidoService.deletePedidoById(id);
+
+    res.status(200).json(pedido);
+  } catch(error) {
     res.status(500).json({ errorMessage: error.message });
   }
 };

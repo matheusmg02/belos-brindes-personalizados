@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-indent */
 import './style.css';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { cadastrarUsuario } from "../../services/userService.js";
 
 const Cadastro = () => {
   const [nome, setNome] = useState('');
@@ -10,21 +10,16 @@ const Cadastro = () => {
   const [senha, setSenha] = useState('');
   const [role, setRole] = useState('master');
 
-  const cadastrarUsuario = (e) => {
+  const handleCadastro = async(e) => {
     e.preventDefault();
-    axios.post('http://localhost:3000/api/cadastro', { nome, email, senha, role })
-      .then((result) => alert(result.data))
-      .catch((err) => alert(err));
+    await cadastrarUsuario({nome, email, senha, role});
+    alert("Usuário cadastrado!");
   };
-
-  useEffect(() => {
-    document.title = 'Cadastro';
-  }, []);
 
   return (
     <div className="container">
       <title>Cadastro</title>
-      <form onSubmit={cadastrarUsuario}>
+      <form onSubmit={handleCadastro}>
         <h1>Cadastro de Usuário</h1>
 
         <input

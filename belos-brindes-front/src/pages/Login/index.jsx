@@ -1,7 +1,7 @@
 import './style.css'
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
+import { loginUsuario } from '../../services/userService.js';
 
 const Login = () => {
 
@@ -9,26 +9,11 @@ const Login = () => {
     const [senha, setSenha] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        try {
-          const { data: token } = await axios.post("http://localhost:3000/api/login", {
-            email: email,
-            senha: senha
-          })
-
-          localStorage.setItem("token", token);
-          
-          navigate('/homeadm');
-
-        } catch (error) {
-          alert(error)
-        }
+    const handleLogin = async(e) => {
+      e.preventDefault();
+      await loginUsuario({ email: email, senha: senha });
+      navigate('/homeadm');
     }
-
-    useEffect(() => {
-        document.title = 'Login'
-    })
 
     return (
       <div className="container">

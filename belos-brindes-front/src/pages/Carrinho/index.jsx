@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { getItem, setItem } from "../../services/localStorage";
-import axios from "axios";
+import { getItem, setItem } from "../../services/sessionStorage";
 import "./style.css";
+import {gerarPedido} from "../../services/pedidoService.js"
 
 const Carrinho = () => {
     const [produtos, setProdutos] = useState(getItem("carrinho") || []);
@@ -15,9 +15,9 @@ const Carrinho = () => {
     };
 
     const removeItem = (obj) => {
-        const arrayFilter = produtos.filter((produto) => produto._id !== obj._id);
-        setProdutos(arrayFilter);
-        setItem("carrinho", arrayFilter);
+        const carrinhoFilter = produtos.filter((produto) => produto._id !== obj._id);
+        setProdutos(carrinhoFilter);
+        setItem("carrinho", carrinhoFilter);
 
         setQuantidades((prev) => {
             const updated = { ...prev };
@@ -26,20 +26,15 @@ const Carrinho = () => {
         });
     };
 
-    const criarPedido = (e) => {
+    const criarPedido = async(e) => {
         e.preventDefault();
-
         const pedidoProdutos = produtos.map((produto) => ({
             id_produto: produto._id,
             nome_produto: produto.nome,
             quantidade: quantidades[produto._id] || 0,
         }));
-
-        axios
-            .post("http://localhost:3000/api/pedido", { produtos: pedidoProdutos })
-            .then((result) => console.log(result.data))
-            .catch((err) => console.log(err));
-    };
+        await gerarPedido({produtos: pedidoProdutos});
+    }
 
     return (
         <div>

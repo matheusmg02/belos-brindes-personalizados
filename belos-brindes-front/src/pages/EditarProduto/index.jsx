@@ -11,7 +11,7 @@ const EditarProduto = () => {
 
     const editarProduto = (e) => {
         e.preventDefault();
-        const token = localStorage.getItem("token")
+        const token = sessionStorage.getItem("token")
         axios.put(`http://localhost:3000/api/produto/${id}`, 
         {
             headers: {
