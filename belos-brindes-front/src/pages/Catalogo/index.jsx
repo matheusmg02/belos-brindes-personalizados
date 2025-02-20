@@ -45,7 +45,7 @@ const Catalogo = () => {
                     return (
                         <div key={produto._id} className="card">
                             <div className="card-body">
-                                <h5 className="card-title">{produto.nome}</h5>
+                                <h5 className="card-title"><Link to={`/produto/${produto._id}`}>{produto.nome}</Link></h5>
                                 <button
                                     href="#"
                                     className="btn btn-primary"

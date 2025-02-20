@@ -11,6 +11,8 @@ import Catalogo from "./pages/Catalogo";
 import Carrinho from "./pages/Carrinho";
 import Pedidos from "./pages/Pedidos";
 import Pedido from "./pages/Pedido"
+import Produto from "./pages/Produto";
+import GeminiForm from "./pages/Chatbot";
 
 function RoutesApp() {
     return (
@@ -28,7 +30,11 @@ function RoutesApp() {
                 {/* Rotas para cliente */}
                 <Route path="/" element={<Catalogo />}></Route>    
                 <Route path="/carrinho" element={<Carrinho />}></Route>
-                <Route path="/pedido/:id" element={<Pedido />}></Route>    
+                <Route path="/pedido/:id" element={<Pedido />}></Route>
+                <Route path="/produto/:id" element={<Produto />}></Route>
+                <Route path="/chatbot" element={<GeminiForm />}></Route>
+
+
             </Routes>
         </BrowserRouter>
     );

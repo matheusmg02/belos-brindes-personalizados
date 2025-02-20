@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import roleMessages from "../strategy/roleStrategy.js";
 
 dotenv.config();
 
@@ -18,9 +19,10 @@ const auth = (requiredRoles = []) => (req, res, next) => {
         const decoded = jwt.verify(token.replace("Bearer ", ""), JWT_SECRET);
         req.user = decoded;
 
-        if(requiredRoles && !requiredRoles.includes(req.user.role)) {
-            console.log("permissão negada");
-            return res.status(403).json({ message: "Permissão negada" });
+        if (requiredRoles.length > 0 && !requiredRoles.includes(req.user.role)) {
+            const message = roleMessages[req.user.role] || "Permissão negada.";
+            console.log("Permissão negada:", message);
+            return res.status(403).json({ message });
         }
 
     } catch (err) {

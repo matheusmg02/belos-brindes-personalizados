@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import produtoRoute from "./routes/produtoRoute.js";
 import admRoute from "./routes/admRoute.js";
 import pedidoRoute from "./routes/pedidoRoute.js";
-
+import chatRoute from "./routes/chatbotRoute.js";
 
 const app = express();
 app.use(express.json());
@@ -29,13 +29,4 @@ mongoose
 app.use("/api", produtoRoute);
 app.use("/api", admRoute);
 app.use("/api", pedidoRoute);
-
-/* 
-
-Rotas públicas:
-    - Login e Cadastro do cliente
-    - Catálogo
-
-Rotas privadas:
-    - Lista de usuários (mostrando a permissão das contas, clientes e adms)
-*/
+app.use("/api", chatRoute);

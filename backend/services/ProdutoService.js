@@ -5,12 +5,27 @@ const ProdutoService = () => {
         return ProdutoModel.create(produtoData);
     };
 
+    const postComentario = async(id, comentario, avaliacao) => {
+        const produto = await ProdutoModel.findById(id);
+
+        if (!produto) 
+            throw new Error("Produto não encontrado");
+
+        produto.comentarios.push({comentario, avaliacao});
+        await produto.save();
+
+        return produto;
+    };
+
     const lerProdutos = async() => {
         return ProdutoModel.find();
     };
 
+    const lerProdutoPorId = async(id) => {
+        return ProdutoModel.findById(id);
+    };
+    
     const editarProduto = async(id, newData) => {
-
         const produtoExist = await ProdutoModel.findById(id);
         if (!produtoExist) {
             throw new Error("Erro ao editar produto");
@@ -31,7 +46,9 @@ const ProdutoService = () => {
 
     return {
         criarProduto,
+        postComentario,
         lerProdutos,
+        lerProdutoPorId,
         editarProduto,
         removerProduto
     };

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "./style.css";
 
 const Pedidos = () => {
     const fetchPedidos = async () => {
@@ -21,15 +22,36 @@ const Pedidos = () => {
     if (isLoading) return <div>Carregando...</div>;
     if (isError) return <div>Erro: {error.message}</div>;
 
+    // return (
+    //     <div className="main-container">
+    //         <div className="container-pedidos">
+    //             {pedidos.map((pedido) => (
+    //                 <p key={pedido._id}>
+    //                     Pedido com o id: <Link to={`/pedido/${pedido._id}`}>{pedido._id}</Link>
+    //                 </p>
+    //             ))}
+    //         </div>
+    //     </div>
+    // );
+
     return (
-        <div className="main-container">
-            <div className="container-pedidos">
-                {pedidos.map((pedido) => (
-                    <p key={pedido._id}>
-                        Pedido com o id: <Link to={`/pedido/${pedido._id}`}>{pedido._id}</Link>
-                    </p>
-                ))}
-            </div>
+        <div className="tabela-pedidos">
+            <table className="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Id do pedido</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {pedidos.map((pedido) => {
+                        return (
+                            <tr key={pedido._id}>
+                                <td><Link to={`/pedido/${pedido._id}`}>{pedido._id}</Link></td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
         </div>
     );
 };

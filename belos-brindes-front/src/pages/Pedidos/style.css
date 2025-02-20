@@ -1,0 +1,29 @@
+.tabela-pedidos {
+    max-width: 1200px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.065);
+}
+
+.tabela-pedidos table {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.tabela-pedidos table thead th {
+    background-color: #363467;
+    color: white;
+    text-align: center;
+}
+
+.tabela-pedidos table tbody td {
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.acoes button {
+    margin: 0 10px;
+}

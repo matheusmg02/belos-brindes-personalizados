@@ -1,0 +1,14 @@
+.main-container {
+    margin: 0 auto;
+}
+
+form {
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.resposta {
+    max-width: 1100px;
+    margin: 0 auto;
+    color: #fff;
+}
